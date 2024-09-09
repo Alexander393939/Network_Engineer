@@ -1,1 +1,1 @@
-# Network_Engineer - лабораторные работы в [OTUS.ru](https://otus.ru/)
+# Network_Engineer - лабораторные работы в [OTUS.ru](https://otus.ru/learning/314404/)
