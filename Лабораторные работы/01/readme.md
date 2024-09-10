@@ -140,4 +140,6 @@ S1# write memory
 3.
 <h4 id="section6">Проверьте удаленное управление коммутатором S1.<h4/>
 
+[Telnet проверка](telnet.png)
+
 
