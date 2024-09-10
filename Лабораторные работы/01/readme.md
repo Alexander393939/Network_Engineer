@@ -76,4 +76,4 @@ enable secret class
 banner motd #
 Unauthorized access is strictly prohibited. #
 ```
-[базовые параметры](config/)
+a. [базовые параметры](config/)
