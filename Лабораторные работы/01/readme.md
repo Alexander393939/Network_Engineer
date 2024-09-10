@@ -91,4 +91,5 @@ S1(config-if)# no shutdown
 S1(config-if)# exit
 S1(config)# exit
 S1# write memory
+
 ```
