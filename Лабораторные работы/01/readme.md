@@ -77,3 +77,18 @@ banner motd #
 Unauthorized access is strictly prohibited. #
 ```
 a. [базовые параметры](config/)
+
+b.	Назначьте IP-адрес интерфейсу SVI на коммутаторе. 
+
+Процесс настройки IP-адреса:
+```
+S1> enable
+S1# configure terminal
+S1(config)# hostname S1
+S1(config)# interface vlan 1
+S1(config-if)# ip address 192.168.1.2 255.255.255.0
+S1(config-if)# no shutdown
+S1(config-if)# exit
+S1(config)# exit
+S1# write memory
+```
