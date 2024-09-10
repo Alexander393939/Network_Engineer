@@ -122,6 +122,10 @@ S1# write memory
 
  ## Часть 3
 
- <h4 id="section4">Отобразите конфигурацию коммутатора.<h4/>
+ <h4 id="section4">a. Отобразите конфигурацию коммутатора.<h4/>
 
  [config](config/config)
+
+ b.	Проверьте параметры VLAN 1.
+
+[vlan1](config/vlan1)
