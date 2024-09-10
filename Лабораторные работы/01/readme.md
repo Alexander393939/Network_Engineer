@@ -114,4 +114,4 @@ S1# write memory
 
  <h4 id="section3">2. Настройте IP-адрес на компьютере PC-A.<h4/>
 
- [ip-адрес PC-A](config/)
+ [ip-адрес PC-A](ip-адрес%20PC-A.png)
