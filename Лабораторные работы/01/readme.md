@@ -63,12 +63,17 @@ enable secret <пароль>
 
 <h4 id="section2">Настройка базовых параметров коммутатора:<h4/>
 
-a.	В режиме глобальной конфигурации скопируйте следующие базовые параметры конфигурации и вставьте их в файл на коммутаторе S1.<br/> 
-no ip domain-lookup<br/>
-hostname S1<br/>
-service password-encryption<br/>
-enable secret class<br/>
+a.	В режиме глобальной конфигурации скопируйте следующие базовые параметры конфигурации и вставьте их в файл на коммутаторе S1.<br/>
+```
+no ip domain-lookup
+
+hostname S1
+
+service password-encryption
+
+enable secret class
+
 banner motd #
 Unauthorized access is strictly prohibited. #
-
+```
 [базовые параметры](config/)
