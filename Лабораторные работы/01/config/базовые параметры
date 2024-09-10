@@ -1,0 +1,29 @@
+Unauthorized access is strictly prohibited. 
+
+S1>enable
+Password: 
+Password: 
+S1#
+S1#show ru
+S1#show running-config 
+Building configuration...
+
+Current configuration : 1202 bytes
+!
+version 15.0
+no service timestamps log datetime msec
+no service timestamps debug datetime msec
+service password-encryption
+!
+hostname S1
+!
+enable secret 5 $1$mERr$9cTjUIEqNGurQiFU.ZeCi1
+!
+!
+!
+no ip domain-lookup
+!
+!
+!
+spanning-tree mode pvst
+spanning-tree extend system-id
