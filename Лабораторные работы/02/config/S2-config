@@ -1,25 +1,17 @@
-Press RETURN to get started!
+Press RETURN to get started.
 
 
-%LINK-5-CHANGED: Interface FastEthernet0/1, changed state to up
 
-%LINEPROTO-5-UPDOWN: Line protocol on Interface FastEthernet0/1, changed state to up
 
-%LINEPROTO-5-UPDOWN: Line protocol on Interface Vlan1, changed state to up
 
-%LINK-5-CHANGED: Interface FastEthernet0/6, changed state to up
 
-%LINEPROTO-5-UPDOWN: Line protocol on Interface FastEthernet0/6, changed state to up
+
+
+
+
+
 
 %SYS-5-CONFIG_I: Configured from console by console
-
-%LINK-3-UPDOWN: Interface FastEthernet0/6, changed state to down
-
-%LINEPROTO-5-UPDOWN: Line protocol on Interface FastEthernet0/6, changed state to down
-
-%LINK-5-CHANGED: Interface FastEthernet0/18, changed state to up
-
-%LINEPROTO-5-UPDOWN: Line protocol on Interface FastEthernet0/18, changed state to up
 
 ----DIABLO-2-- 
 
@@ -27,21 +19,20 @@ User Access Verification
 
 Password: 
 
-Switch>enable
+S2>enable
 Password: 
-Switch#sho
-Switch#show run
-Switch#show running-config 
+S2#show ru
+S2#show running-config 
 Building configuration...
 
-Current configuration : 1269 bytes
+Current configuration : 1265 bytes
 !
 version 15.0
 no service timestamps log datetime msec
 no service timestamps debug datetime msec
 service password-encryption
 !
-hostname Switch
+hostname S2
 !
 enable secret 5 $1$mERr$9cTjUIEqNGurQiFU.ZeCi1
 enable password 7 0824424D1B0015031B0402
