@@ -27,3 +27,6 @@ a.
 
 b.
 
+[МАС-адрес коммутатора S1 Fast Ethernet 0/1:](config/S1-interface) 0007.ec35.8401
+
+[МАС-адрес коммутатора S2 Fast Ethernet 0/1:](config/S2-interface) 0002.4a76.6601
