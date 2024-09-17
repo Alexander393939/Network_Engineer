@@ -36,5 +36,7 @@ b.
 ```
 show mac address-table
 ```
+![](S2-mac-адреса.png)
+
 
 
