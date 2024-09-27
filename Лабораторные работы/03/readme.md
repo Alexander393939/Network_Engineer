@@ -2,9 +2,9 @@
 
 ### Проблема1:)
 
-<table>
+<table style="width: 100%;">
   <tr>
-    <th colspan="2" style="text-align:center; background-color: #add8e6;">Дано</th>
+    <th colspan="2" style="text-align:center;">Дано</th>
   </tr>
   <tr>
     <td><strong>IP-адрес узла</strong></td>
@@ -19,4 +19,5 @@
     <td>255.255.255.224</td>
   </tr>
 </table>
+
 
