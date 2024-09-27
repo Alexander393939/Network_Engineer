@@ -1,9 +1,8 @@
 # Лабораторная работа 03 - Расчет подсетей IPv4
 
 ### Проблема1:)
- Общая таблица сетей.
 
-<<table>
+<table>
   <tr>
     <th colspan="2" style="text-align:center; background-color: #add8e6;">Дано</th>
   </tr>
