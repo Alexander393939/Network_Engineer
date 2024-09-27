@@ -2,6 +2,8 @@
 
 ### <u>Проблема1:)<u/>
 
+
+
 <table style="width: 100%;">
   <tr>
     <th colspan="2" style="text-align:center;">Дано</th>
