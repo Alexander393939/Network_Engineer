@@ -31,8 +31,41 @@ login
 end
 copy run start
 ```
+*  Настройте коммутатор. Назначьте имя хоста и настройте основные параметры устройства:
+```
+enable 
+conf t
+hostname S1
+service password-endcryption
+enable secret cisco
+line vty 0
+transport input telnet
+password class
+login
+end
+```
+```
+conf t
+sdm prefer dual-ipv4-and-ipv6 default
+end
+reload
+```
+ _**sdm prefer dual-ipv4-and-ipv6 default** шаблон SDM, который поддерживает работу как с IPv4, так и с IPv6_
 
-
-
-
-
+#### **Часть 2. Ручная настройка IPv6-адресов**
+ a.	Назначьте глобальные индивидуальные IPv6-адреса, указанные в таблице адресации обоим интерфейсам Ethernet на R1:
+ ```
+ conf t
+ interface g 0/0/0
+ ipv6 address 2001:db8:acad:a::1/64
+ ipv6 address fe80::1 link-local
+ exit
+ interface g 0/0/1
+ ipv6 address 2001:db8:acad:1::1/64
+ ipv6 address fe80::1 link-local
+ end
+ ```
+ ```
+ show ipv6 interface brief
+ ```
+ ![](srcn/R1ip.png)
