@@ -14,9 +14,23 @@ PC-B|NIC|2001:db8:acad:a::3|SLACC|64|fe80::1|
  
  _<p style="margin-top: -20px;"><small style="font-size: 10px;">SLAAC (Stateless Address Autoconfiguration) в IPv6 — это механизм, который позволяет устройствам автоматически получать свой IPv6-адрес без использования DHCP-сервера.</small></p>_
 
-#### **Часть 1. Настройка топологии и конфигурация основных параметров маршрутизатора и коммутатора:**
+#### **Часть 1. Настройка топологии и конфигурация основных параметров маршрутизатора и коммутатора:**<br>  Шаг 1. Настройте маршрутизатор.
 
-* Назначьте имя хоста и настройте основные параметры устройства:
+*  Настройте маршрутизатор. Назначьте имя хоста и настройте основные параметры устройства:
+
+```
+enable
+conf t
+hostname R1
+service password-endcryption
+enable secret cisco
+line vty 0
+transport input telnet
+password class
+login
+end
+copy run start
+```
 
 
 
