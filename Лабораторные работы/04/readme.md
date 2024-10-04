@@ -12,7 +12,7 @@ S1  |VLAN 1|2001:db8:acad:1::b|fe80::b|64|-|
 PC-A|NIC|2001:db8:acad:1::3|SLACC|64|fe80::1|
 PC-B|NIC|2001:db8:acad:a::3|SLACC|64|fe80::1|
  
- <p style="margin-top: -20px;"><small style="font-size: 10px;">SLAAC (Stateless Address Autoconfiguration) в IPv6 — это механизм, который позволяет устройствам автоматически получать свой IPv6-адрес без использования DHCP-сервера.</small></p>
+ _<p style="margin-top: -20px;"><small style="font-size: 10px;">SLAAC (Stateless Address Autoconfiguration) в IPv6 — это механизм, который позволяет устройствам автоматически получать свой IPv6-адрес без использования DHCP-сервера.</small></p>_
 
 
 
