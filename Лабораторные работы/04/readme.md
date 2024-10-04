@@ -68,4 +68,4 @@ reload
  ```
  show ipv6 interface brief
  ```
- ![](srcn/R1ip.png)
+ ![](scrn/R1ip.png)
