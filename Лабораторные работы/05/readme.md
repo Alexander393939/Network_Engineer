@@ -104,7 +104,7 @@ crypto key generate rsa general-keys modulus 1024
 
  ```
  line vty 0 4
-transport input ssh telnet
+transport input ssh 
 login local
 exit
 ```
@@ -126,7 +126,7 @@ ip ssh version 2
 - Измените способ входа в систему на проверку по локальной базе учетных записей:
 ```
 line vty 0 4
-transport input ssh telnet
+transport input ssh 
 login local
 exit
 ```
