@@ -26,6 +26,39 @@ PC-B|NIC|192.168.30.3|255.255.255.0|192.168.30.1|
 Шаг 1. Создайте сеть согласно топологии.
 Подключите устройства, как показано в топологии, и подсоедините необходимые кабели:
 
+![схема](scrn/схема.png)
 
+**Шаг 2. Настройте базовые параметры для маршрутизатора и коммутаторов .**<br/>
+```
+enable
+configure terminal
+hostname R1
+no ip domain-lookup
+```
+**Настройка паролей:**
+```
+conf t
+enable secret class
+line console 0
+password cisco
+login
+exit
+line vty 0 4
+login
+exit
+service password-encryption
+```
+**Создать баннер:**
+```
+conf t
+banner motd "---Attention---"
+exit
+copy run start
+```
+**Настроить время :**
+```
+clock set 22:00:00 22 oct 2024
+copy run start
+```
 
 
