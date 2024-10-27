@@ -148,7 +148,7 @@ switchport trunk allowed vlan 10,20,30,1000
 exit
 copy run start
 ```
-show interface f0/5 switchport
+show interface f0/5 switchport<br/>
 ![show interface f0/5 switchport](scrn/F05.png)
 
 #### Часть 4. Настройка маршрутизации между сетями VLAN
