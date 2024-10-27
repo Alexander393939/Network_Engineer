@@ -63,6 +63,69 @@ copy run start
 
 #### Часть 2. Создание сетей VLAN и назначение портов коммутатора
 
+* Шаг 1. Создайте сети VLAN на коммутаторах:
+
+S1 И S2 :
+```
+enable
+configure terminal
+vlan 10
+ name Management
+vlan 20
+ name Sales
+vlan 30
+ name Operations
+vlan 999
+ name Parking_Lot
+vlan 1000
+ name Own
+```
+S1 настройка ip для Vlan 10:
+```
+interface vlan 10
+ip address 192.168.10.11 255.255.255.0
+ip default-gateway 192.168.10.1
+no shutdown
+exit
+copy run start
+``` 
+S2 настройка ip для Vlan 10:
+```
+interface vlan 10
+ip address 192.168.10.12 255.255.255.0
+ip default-gateway 192.168.10.1
+no shutdown
+copy run start
+```
+c.	Назначьте все неиспользуемые порты коммутаторов S1 и S2 VLAN Parking_Lot,настройте их для статического режима доступа и административно деактивируйте их<br/>
+S1:
+```
+interface range f0/2-4, f0/7-24, g0/1-2
+sitchport mode access
+switchport access vlan 999
+shutdown
+```
+```
+interface f0/6
+switchport mode accesss
+switchport access vlan 20
+```
+S2:
+```
+interface range f0/2-17, f0/19-24, f0/1-2
+switchport mode access
+switchport access vlan 999
+shutdown
+```
+```
+interface f0/18
+switchport mode access
+switchport access vlan 30
+```
+
+
+
+
 
 
 
