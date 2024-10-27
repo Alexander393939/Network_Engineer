@@ -124,6 +124,34 @@ switchport access vlan 30
 ```
 **![show vlan:](scrn/show%20vlan.png)**
 
+#### Часть 3. Конфигурация магистрального канала стандарта 802.1Q между коммутаторами
+
+**Шаг 1. Вручную настройте магистральный интерфейс F0/1 на коммутаторах S1 и S2.**
+
+```
+interface f0/1
+switchport mode trunk
+switchport trunk native vlan 1000
+switchport trunk allowed vlan 10,20,30,1000
+exit
+copy run start
+```
+![show interface trunk](scrn/F01.png)
+
+Шаг 2. Вручную настройте магистральный интерфейс F0/5 на коммутаторе S1.
+
+```
+interface f0/1
+switchport mode trunk
+switchport native vlan 1000
+switchport trunk allowed vlan 10,20,30,1000
+exit
+copy run start
+```
+show interface f0/5 switchport
+![show interface f0/5 switchport](scrn/F05.png)
+
+
 
 
 
