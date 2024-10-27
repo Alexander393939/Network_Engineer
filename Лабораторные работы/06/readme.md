@@ -151,9 +151,48 @@ copy run start
 show interface f0/5 switchport
 ![show interface f0/5 switchport](scrn/F05.png)
 
+#### Часть 4. Настройка маршрутизации между сетями VLAN
 
+Настройте подинтерфейсы для каждой VLAN, как указано в таблице IP-адресации. Все подинтерфейсы используют инкапсуляцию 802.1Q. Убедитесь, что подинтерфейсу для native VLAN не назначен IP-адрес. Включите описание для каждого подинтерфейса.
+```
+interface g0/0/1.10
+encapsulation dot1q 10
+ip address 192.168.10.1 255.255.255.0
+description Management vlan
+```
+```
+interface G0/0/1.20
+encapsulation dot1Q 20
+ip address 192.168.20.1 255.255.255.0
+description Sales VLAN
+```
+```
+interface G0/0/1.30
+encapsulation dot1Q 30
+ip address 192.168.30.1 255.255.255.0
+description Operations VLAN
+```
+```
+interface G0/0/1.1000
+encapsulation dot1Q 1000 native
 
+```
+![R1](scrn/VlanR1.png)
 
+#### Часть 5. Проверьте, работает ли маршрутизация между VLAN
 
+a.	Отправьте эхо-запрос с PC-A на шлюз по умолчанию:
 
+![ping PC-a](scrn/pingPC-Agateway.png)
 
+b.	Отправьте эхо-запрос с PC-A на PC-B.
+
+![ping PC-AB](scrn/ping%20PC-AB.png)
+
+c.	Отправьте команду ping с компьютера PC-A на коммутатор S2.
+
+![ping S2](scrn/pingS2.png)
+
+В окне командной строки на PC-B выполните команду tracert на адрес PC-A:
+
+![tracert](scrn/tracertPC-A.png)
