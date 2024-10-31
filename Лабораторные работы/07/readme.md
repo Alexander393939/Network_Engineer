@@ -59,3 +59,43 @@ copy run start
 Проверьте связь:
 
 ![Ping](scrn/ping.png)
+
+
+#### Часть 2:	Определение корневого моста
+
+ 1 	Отключите все порты на коммутаторах.<br/>
+ ```
+ conf t
+ interface range f0/1-24
+ shutdown
+ exit
+ interface g0/1-2
+ shutdown
+ exit
+ ```
+ 2	Настройте подключенные порты в качестве транковых.<br/>
+ ```
+ conf t
+ interface range f0/1-4
+ switchport mode trunk
+ exit
+
+```
+3	Включите порты F0/2 и F0/4 на всех коммутаторах.<br/>
+```
+conf t
+interface f0/2
+no shutdown
+exit
+interface f0/4
+no shutdown
+exit
+```
+![status-interface](scrn/Interface-status.png)
+ 4	Отобразите данные протокола spanning-tree.<br/>
+
+ ![show spanning-tree](scrn/spanning-tree.png)
+ 
+
+
+
