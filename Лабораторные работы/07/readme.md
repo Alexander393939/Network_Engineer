@@ -56,3 +56,6 @@ no shutdown
 exit
 copy run start
 ```
+Проверьте связь:
+
+![Ping](scrn/ping.png)
