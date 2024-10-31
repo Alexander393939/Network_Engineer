@@ -46,11 +46,11 @@ copy run start
 ```
 interface vlan 1
 
-ip address 192.168.1.1 255.255.255.0    *S1*
+ip address 192.168.1.1 255.255.255.0    # S1
 
-ip address 192.168.1.2 255.255.255.0    *S2*
+ip address 192.168.1.2 255.255.255.0    # S2
 
-ip address 192.168.1.3 255.255.255.0    *S3*
+ip address 192.168.1.3 255.255.255.0    # S3
 
 no shutdown
 exit
