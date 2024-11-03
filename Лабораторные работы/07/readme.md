@@ -96,6 +96,6 @@ exit
 
  ![show spanning-tree](scrn/spanning-tree.png)
  
+* запишите роль и состояние (Sts) активных портов на каждом коммутаторе в топологии
 
-
-
+![f0/2-f0/4](scrn/stpF0-2-F0-4.png)
