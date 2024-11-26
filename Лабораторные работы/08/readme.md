@@ -21,6 +21,6 @@
 - Часть 4. Настройка и проверка состояния DHCPv6 сервера на R1<br/>
 - Часть 5. Настройка и проверка DHCPv6 Relay на R2<br/>
 
-https://github.com/Alexander393939/Network_Engineer.git
+
 
 
