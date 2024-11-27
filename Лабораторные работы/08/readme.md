@@ -21,6 +21,62 @@
 - Часть 4. Настройка и проверка состояния DHCPv6 сервера на R1<br/>
 - Часть 5. Настройка и проверка DHCPv6 Relay на R2<br/>
 
+##### Часть 1:
+
+4. Настройка интерфейсов и маршрутизации для обоих маршрутизаторов:
+
+- a) Настройте интерфейсы G0/0/0 и G0/1 на R1 и R2 с адресами IPv6, указанными в таблице выше.
+ 
+- **Настройка R1 :** 
+```
+interface g0/0/0
+ipv6 address 2001:db8:acad:2::1/64
+ipv6 address fe80::1 link-local
+no shutdown
+exit
+
+interface g0/0/1 
+ipv6 address 2001:db8:acad:1::1/64
+ipv6 address fe80::1 link-local
+no shutdown
+exit
+
+```
+- b) Настройте маршрут по умолчанию на каждом маршрутизаторе, который указывает на IP-адрес G0/0/0 на другом маршрутизаторе
+
+```
+ipv6 route ::/0 2001:db8:acad:2::2
+copy run start
+```
+![R1](scrn/R1showipv6.png)
+
+- **Настройка R2 :**
+```
+interface g0/0/0
+ipv6 address 2001:db8:acad:2::2/64
+ipv6 address fe80::2 link-local
+no shutdown
+exit
+
+interface g0/0/1
+ipv6 address 2001:db8:acad:3/64
+ipv6 address fe80::1 link-local
+no shutdown
+exit
+
+ipv6 route ::/0 2001:db8:acad2::1
+copy run start
+```
+![R2](scrn/R2showipv6.png)
+
+#### c)	Убедитесь, что маршрутизация работает с помощью пинга адреса G0/0/1 R2 из R1:
+
+![pingR1](scrn/PingR2изR1.png)
+
+
+
+
+
 
 
 
