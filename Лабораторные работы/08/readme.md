@@ -140,4 +140,4 @@ ipv6 dhcp server R2-STATEFUL
  exit
  copy run start
  ```
- 
+ ![PC-B](scrn/PC-Bipconfig.png)
