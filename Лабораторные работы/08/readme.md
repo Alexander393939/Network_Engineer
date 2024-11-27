@@ -91,10 +91,53 @@ copy run start
 
 - первый байт 00=000000**0**0- меняем 7 бит на **1** получится 00000010=02 **2E0:B0FF:FE93:C574**
 
+### Часть 3. Настройка и проверка сервера DHCPv6 на R1
 
+```
+ipv6 dhcp pool R1-STATELESS
+dns-server 2001:db8:acad::254
+domain-name STATELESS.com
+exit
 
+interface g0/0/1
+ipv6 nd other-config-flag
+ipv6 dhcp server R1-STATELESS 
+```
+![PC-aDHCPv6R1](scrn/DHCPv6R1.png)
 
+- f)	Тестирование подключения с помощью пинга IP-адреса интерфейса G0/1 R2
 
+![pingR2](scrn/pingPC-A_R2.png)
 
+### Часть 4. Настройка сервера DHCPv6 с сохранением состояния на R1:
 
+ - a.	Создайте пул DHCPv6 на R1 для сети 2001:db8:acad:3:aaa::/80. Это предоставит адреса локальной сети, подключенной к интерфейсу G0/0/1 на R2. В составе пула задайте DNS-сервер 2001:db8:acad: :254 и задайте доменное имя STATEFUL.com.
 
+```
+ipv6 dhcp pool R2-STATEFUL
+address prefix 2001:db8:acad:3:aaa::/80
+dns-server 2001:db8:acad::254
+domain-name STATEFUL.com
+exit
+
+interface g0/0/0
+ipv6 dhcp server R2-STATEFUL
+```
+
+### Часть 5. Настройка и проверка ретрансляции DHCPv6 на R2.
+ настроить и проверить ретрансляцию DHCPv6 на R2, позволяя PC-B получать адрес IPv6.
+
+ 1. Включите PC-B и проверьте адрес SLAAC, который он генерирует.
+
+ ![Pc-B](scrn/PC-B-slaac.png)
+
+ 2. Настройте R2 в качестве агента DHCP-ретрансляции для локальной сети на G0/0/1.
+
+ ```
+ interface g0/0/1
+ ipv6 nd managed-config-flag
+ ipv6 dhcp relay destination 2001:db8:acad:2::1 g0/0/0
+ exit
+ copy run start
+ ```
+ 
