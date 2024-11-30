@@ -23,7 +23,7 @@
 |100|Клиенты(client) |S1:F0/6|
 |200|Управление(mng)|S1: VLAN 200|
 |999|Parking Lot|S1: F0/1-4, F0/7-24, G0/1-2|
-|1000|Собственная(own)|-----|
+|1000|Собственная(native)|-----|
 
 ## Часть 1.	Создание сети и настройка основных параметров устройства
 
@@ -50,11 +50,106 @@
 - Подсеть С: 192.168.1.96/28<br/>
 192.168.1.97 - первый адрес подсети для R2 G0/0/1
 
+Шаг 3.	Произведите базовую настройку маршрутизаторов.
+Настройка R1 и R2
+```
+enable
+conf t
+hostname R1
+no ip domain-lookup
+
+enable secret class
+
+line console 0
+password cisco
+login
+exit
+
+line vty 0 4
+password cisco
+login
+exit
+
+service password-encryption
+
+set clock 09:00:00 29 Nov 2024
+
+copy run start
+
+```
+
+Шаг 4.	Настройка маршрутизации между сетями VLAN на маршрутизаторе R1
+
+```
+interface g0/0/1.100
+encapsulation dot1Q 100
+ip address 192.168.1.1 255.255.255.192
+description Client Vlan
+no shutdown
+
+interface g0/0/1.200
+encapsulation dot1Q 200
+ip address 192.168.1.65 255.255.255.224
+description MNG Vlan
+no shutdown
+
+interface g0/0/1.1000
+encapsulation dot1Q 1000 native
+description Native Vlan
+no ip address
+no shutdown
+
+```
+![R1interface](scrn/R1interface.png)
+Шаг 5.	Настройте G0/1 на R2, затем G0/0/0 и статическую маршрутизацию для обоих маршрутизаторов
+a. Настройте G0/0/1 на R2 с первым IP-адресом подсети C
+```
+interface g0/0/1
+ip address 192.168.1.97 255.255.255.240
+no shutdown
+```
+b.	Настройте интерфейс G0/0/0 для каждого маршрутизатора на основе приведенной выше таблицы IP-адресации.
+R1:
+```
+conf t
+interface g0/0/0
+ip address 10.0.0.1 255.255.255.252
+no shutdown
+```
+R2:
+```
+conf t
+interface g0/0/0
+ip address 10.0.0.2 255.255.255.252
+no shutdown
+```
  
+c.	Настройте маршрут по умолчанию на каждом маршрутизаторе, указываемом на IP-адрес G0/0/0 на другом маршрутизаторе.
+R1:
+```
+conf t
+ip route 0.0.0.0  0.0.0.0   10.0.0.2
+```
+R2:
+```
+conf t
+ip route 0.0.0.0   0.0.0.0  10.0.0.1
+```    
+d.	Убедитесь, что статическая маршрутизация работает с помощью пинга до адреса G0/0/1 R2 от R1.
+![G0/0/1R2](scrn/G001R2ping.png)
 
+Шаг 7.	Создайте сети VLAN на коммутаторе S1.
+```
+conf t
+interface vlan 200
+ip address 192.168.1.66 255.255.255.224
+no shutdown
+exit
 
-    
-
+ip default-gateway 192.168.1.65
+exit
+copy run start
+```
 
 
 
