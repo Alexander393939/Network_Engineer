@@ -147,6 +147,133 @@ switchport mode access
 conf t
 interface f0/18
 switchport mode access
+switchport access vlan 10
 ```
+- На S1 и S2 переместите неиспользуемые порты из VLAN 1 в VLAN 999 и отключите неиспользуемые порты.
+
+```
+conf t
+interface range f0/2-4, f0/7-24, g0/1-2
+switchport mode access
+switchport access vlan 999
+shutdown 
+```
+![S1status](scrn/S1status.png)
+
+![S2status](scrn/S2status.png)
+
+Интерфейсы F0/6 на S1 и F0/18 на S2 настроены как порты доступа. На этом шаге вы также настроите безопасность портов на этих двух портах доступа.
+- На S1, введите команду show port-security interface f0/6  для отображения настроек по умолчанию безопасности порта для интерфейса F0/6
 
 
+
+Конфигурация безопасности порта по умолчанию
+
+
+|Функция|Настройка по умолчанию|
+|:---------------:|:---------------:|
+|Защита портов| Disabled            |
+|Максимальное количество записей MAC-адресов| 1               |
+|Режим проверки на нарушение безопасности| Shutdown            |
+|Aging Time|   0 mins               |
+|Aging Type| Absolute                  |
+|Secure Static Address Aging|      Disabled        |
+|Sticky MAC Address| 0          |
+
+![S1portsecurity](scrn/S1portsecurity.png)
+
+ - На S1 включите защиту порта на F0 / 6 со следующими настройками:<br>
+o	Максимальное количество записей MAC-адресов: 3<br/>
+o	Режим безопасности: restrict<br/>
+o	Aging time: 60 мин.<br/>
+o	Aging type: неактивный<br/>
+
+ ```
+ conf t
+ interface f0/6
+ switchport port-security maximum 3
+
+ switchport port-security aging time 60
+ ```
+ ![S1portsecurity2](scrn/S1portsecurity2.png)
+
+ -	Включите безопасность порта для F0 / 18 на S2. Настройте каждый активный порт доступа таким образом, чтобы он автоматически добавлял адреса МАС, изученные на этом порту, в текущую конфигурацию.<br/>
+	Настройте следующие параметры безопасности порта на S2 F / 18:<br/>
+o	Максимальное количество записей MAC-адресов: 2<br/>
+o	Тип безопасности: Protect<br/>
+o	Aging time: 60 мин.<br/>
+
+```
+conf t
+interface f0/18
+switchport port-security
+switchport port-security mac-address sticky
+
+switchport port-security maximum 2
+
+switchport  port-security violation protect
+
+switchport port-security  aging time 60
+
+```
+![S2portsecurity](scrn/S2portsecurity.png)
+
+
+##### Реализовать безопасность DHCP snooping.
+- На S2 включите DHCP snooping и настройте DHCP snooping во VLAN 10.
+```
+conf t
+ip dhcp snooping
+ip dhcp snooping vlan 10
+```
+- Настройте магистральные порты на S2 как доверенные порты
+```
+interface f0/1
+ip dhcp snooping trust
+```
+ - Ограничьте ненадежный порт Fa0/18 на S2 пятью DHCP-пакетами в секунду
+ ```
+ conf t
+ interface f0/18
+ ip dhcp snooping limit rate 5
+```
+![S2snooping](scrn/S2DHCPsnooping.png)
+
+-В командной строке на PC-B освободите, а затем обновите IP-адрес
+
+![PC-Bipconfig](scrn/PC-Bipconfig.png)
+
+- Проверьте привязку отслеживания DHCP с помощью команды show ip dhcp snooping binding.
+
+![S2Dhcpsnopbindig](scrn/S2Dhcpbiding.png)
+
+##### Реализация PortFast и BPDU Guard
+- Настройте PortFast на всех портах доступа, которые используются на обоих коммутаторах<br/>
+
+S1:
+```
+conf t
+interface range f0/5-6
+spanning-tree portfast
+```
+S2:
+```
+conf t
+interface f0/18
+spanning-tree portfast
+```
+- Включите защиту BPDU на портах доступа VLAN 10 S1 и S2, подключенных к PC-A и PC-B.
+
+S1:
+```
+interface f0/6
+spanning-tree bpduguard enable
+```
+S2:
+```
+interface f0/18
+spanning-tree bpduguard enable
+```
+ping R1 , PC-B
+
+![PingR1PCB](scrn/pingR1-PC-B.png)
