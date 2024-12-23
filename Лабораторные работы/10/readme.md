@@ -86,7 +86,6 @@ conf t
 router ospf 56
 router-id 1.1.1.1
 network 10.53.0.0 0.0.0.255 area 0
-network 172.16.1.0 0.0.0.255 area 0
 end
 ```
 - R2
