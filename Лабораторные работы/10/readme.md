@@ -151,12 +151,7 @@ ip ospf hello-interval 30
 Добавьте конфигурацию, необходимую для OSPF для обработки R2 Loopback 1 как сети точка-точка
 ```
 conf t
-interface loopback 1
-ip address 172.16.1.1 255.255.255.0
-exit
-
-ip route 0.0.0.0 0.0.0.0 10.53.0.2
-
+ip route 0.0.0.0 0.0.0.0 loopback 1
 router ospf 56
 default-information originate
 ```
@@ -164,17 +159,21 @@ default-information originate
 -Только на R2 добавьте конфигурацию, необходимую для предотвращения отправки объявлений OSPF в сеть Loopback 1.
 ```
 conf t
-router ospf 56
-passive-interface Loopback 1
 interface loopback 1
 ip ospf network point-to-point
+exit
+
+router ospf 56
+passive-interface Loopback 1
+
+
 ```
 -Измените базовую пропускную способность для маршрутизаторов. После этой настройки перезапустите OSPF с помощью команды clear ip ospf process 
+R1 и R2
 ```
 conf t
-interface g0/0/1
-bandwidth 1000
-
+router ospf 56
+auto-cost reference-bandwidth 1000
 clear ip ospf process
 ```
 2. Убедитесь, что оптимизация OSPFv2 реализовалась
