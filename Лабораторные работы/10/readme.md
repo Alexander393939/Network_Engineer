@@ -155,7 +155,7 @@ interface loopback 1
 ip address 172.16.1.1 255.255.255.0
 exit
 
-ip route 0.0.0.0 0.0.0.0 loopback 1
+ip route 0.0.0.0 0.0.0.0 10.53.0.2
 
 router ospf 56
 default-information originate
