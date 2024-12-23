@@ -157,14 +157,14 @@ exit
 
 ip route 0.0.0.0 0.0.0.0 loopback 1
 
-router ospf 1
+router ospf 56
 default-information originate
 ```
 
 -Только на R2 добавьте конфигурацию, необходимую для предотвращения отправки объявлений OSPF в сеть Loopback 1.
 ```
 conf t
-router ospf 1
+router ospf 56
 passive-interface Loopback 1
 interface loopback 1
 ip ospf network point-to-point
@@ -194,3 +194,9 @@ show ip ospf interface g0/0/1
 
 
 ![R1iproute](scrn/R1showiproute.png)
+  
+R2:
+```
+show ip ospf route
+```
+![ShowospfR2](scrn/ShowOSPFR2.png)
