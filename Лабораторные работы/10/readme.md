@@ -197,6 +197,6 @@ show ip ospf interface g0/0/1
   
 R2:
 ```
-show ip ospf route
+show ip route ospf
 ```
 ![ShowospfR2](scrn/ShowOSPFR2.png)
