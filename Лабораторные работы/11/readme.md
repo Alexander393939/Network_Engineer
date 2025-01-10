@@ -21,4 +21,187 @@ __Таблица VLAN__
 |30|Operations|S1: F0/6|
 |40|Sales|S2: F0/18|
 |999|ParkingLot|S1: F0/2-4, F0/7-24, G0/1-2<br/>S2: F0/2-4, F0/6-17, F0/19-24, G0/1-2|
-|1000|Собственная|---|
+|1000|Native|---|
+
+## Часть 1. Создание сети и настройка основных параметров устройства:
+
+- Произведите базовую настройку маршрутизаторов и коммутаторов.
+
+```
+conf t
+hostname R1
+no ip domain-lookup
+enable secret class
+line console 0
+password cisco
+login
+
+line vty 0 4 
+password cisco
+login
+
+service password-encryption
+
+banner motd "Alarm!"
+
+copy run start
+
+```
+### Часть 2. Настройка сетей VLAN на коммутаторах.
+
+- Создайте необходимые VLAN и назовите их на каждом коммутаторе из приведенной выше таблицы
+```
+conf t
+vlan 20
+name Management
+
+vlan 30
+name Operations
+
+vlan 40
+name Sales
+
+vlan 999
+name ParkingLot
+
+vlan 1000
+name Native
+```
+ - Настройте интерфейс управления и шлюз по умолчанию на каждом коммутаторе, используя информацию об IP-адресе в таблице адресации.
+
+ S1:
+ ```
+ conf t
+ interface vlan 20
+ ip address 10.20.0.2 255.255.255.0
+ exit
+
+ ip default-gateway 10.20.0.1
+
+```
+S2:
+```
+conf t
+interface vlan 20
+ip address 10.20.0.3 255.255.255.0
+exit
+
+ip default-gateway 10.20.0.1
+```
+ - Назначьте все неиспользуемые порты коммутатора VLAN Parking Lot, настройте их для статического режима доступа и административно деактивируйте их.
+
+S1:
+ ```
+ conf t
+ interface range fa0/2-4, fa0/7-24, g0/1-2
+ switchport mode access
+ switchport access vlan 999
+ shutdown
+ ```
+ S2:
+ ```
+ conf t
+ interface range fa0/2-4, fa0/6-17, fa0/19-24, g0/1-2
+ switchport mode access
+ switchport access vlan 999
+ shutdown
+ ```
+-Назначьте используемые порты соответствующей VLAN (указанной в таблице VLAN выше) и настройте их для режима статического доступа.
+
+S1:
+```
+conf t
+interface fa0/6
+switchport mode access
+switchport access vlan 30
+```
+S2:
+```
+conf t
+interface fa0/5
+switchport mode access
+switchport access vlan 20
+
+interface fa0/18
+switchport mode access
+switchport access vlan 40
+```
+![S1](scrn/S1_show_vlan_brief.png)
+
+
+![S2](scrn/S2_show_vlan_brief.png)
+
+#### Часть 3. Настройте транки (магистральные каналы).
+
+ - Измените режим порта коммутатора на интерфейсе F0/1, чтобы принудительно создать магистральную связь. Не забудьте сделать это на обоих коммутаторах.
+
+
+```
+conf t
+interface fa0/1
+switchport mode trunk
+```
+ - В рамках конфигурации транка установите для native vlan значение 1000 на обоих коммутаторах. При настройке двух интерфейсов для разных собственных VLAN сообщения об ошибках могут отображаться временно.
+
+```
+switchport trunk native vlan 1000
+```
+- В качестве другой части конфигурации транка укажите, что VLAN 10, 20, 30 и 1000 разрешены в транке.
+```
+switchport trunk allowed vlan 20,30,40,1000
+```
+![S1](scrn/S1_show_interface_trunk.png)
+
+![S2](scrn/S2_show_interface_trunk.png)
+
+- Настройте интерфейс S1 F0/5 с теми же параметрами транка, что и F0/1. Это транк до маршрутизатора.
+```
+conf t
+interface fa0/5
+switchport mode trunk
+switchport trunk native vlan 1000
+switchport trunk allowed 20,30,40,1000
+
+copy run start
+```
+
+##### Часть 4. Настройте маршрутизацию.
+
+ - Активируйте интерфейс G0/0/1 на маршрутизаторе.
+ ```
+ conf t 
+ interface g0/0/1
+ no shutdown
+ ```
+
+ - Настройте подинтерфейсы для каждой VLAN, как указано в таблице IP-адресации. Все подинтерфейсы используют инкапсуляцию 802.1Q. Убедитесь, что подинтерфейс для собственной VLAN не имеет назначенного IP-адреса. Включите описание для каждого подинтерфейса.
+ ```
+ conf t
+ interface g0/0/1.20
+ ip address 10.20.0.1 255.255.255.0
+ encapsulation dot1q 20
+ description MANAGEMENT VLAN
+ exit
+
+ interface g0/0/1.30
+ ip address 10.30.0.1 255.255.255.0
+ encapsulation dot1q 30
+ description OPERATIONS VLAN
+ exit
+
+ interface g0/0/1.40
+ ip address 10.40.0.1 255.255.255.0
+ encapsulation dot1q 40
+ description SALES VLAN
+ exit
+
+ interface g0/0/1.1000
+ description NATIVE VLAN
+encapsulation  dot1q 1000
+exit
+
+interface Loopback 1 
+ip address 172.16.1.1 255.255.255.0
+```
+![R1](scrn/R1_show_ip_Interface_brief.png)
+
