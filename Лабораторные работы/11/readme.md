@@ -205,3 +205,69 @@ ip address 172.16.1.1 255.255.255.0
 ```
 ![R1](scrn/R1_show_ip_Interface_brief.png)
 
+ - Настройка интерфейса R2 g0/0/1 с использованием адреса из таблицы и маршрута по умолчанию с адресом следующего перехода 10.20.0.1
+
+```
+conf t
+interface g0/0/1
+ip address 10.20.0.4 255.255.255.0
+no shutdown
+exit
+
+ip route 0.0.0.0 0.0.0.0 10.20.0.1
+```
+###### Часть 5. Настройте удаленный доступ
+
+ - Создайте локального пользователя с именем пользователя SSHadmin и зашифрованным паролем $cisco123!
+R1 S1 S2 R2:
+```
+conf t
+username SSHadmin secret $cisco123!
+ip domain-name ccna-lab.com
+```
+- Генерируйте криптоключи с помощью 1024 битного модуля
+```
+conf t
+crypto key generate rsa general-keys modulus 1024
+```
+- Настройте первые пять линий VTY на каждом устройстве, чтобы поддерживать только SSH-соединения и с локальной аутентификацией.
+
+```
+conf t
+transport input ssh 
+login local
+```
+
+- Включите сервер HTTPS на R1.
+```
+conf t
+ip http secure-server 
+```
+
+# Часть 6. Проверка подключения
+
+![PC](scrn/PC_ip.png)
+
+
+- Выполните следующие тесты. Эхозапрос должен пройти успешно
+
+![Test](scrn/test.png)
+
+PC-A:
+
+![PC-A](scrn/PC-A_ping.png)
+
+PC-B:
+
+![PC-B](scrn/PC-B_ping.png)
+
+![PC-B](scrn/PC-B_SSH.png)
+
+## Часть 7. Настройка и проверка списков контроля доступа (ACL)
+
+- Политика1. Сеть Sales не может использовать SSH в сети Management (но в  другие сети SSH разрешен).
+```
+```
+
+
+
