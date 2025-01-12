@@ -229,6 +229,7 @@ ip domain-name ccna-lab.com
 ```
 conf t
 crypto key generate rsa general-keys modulus 1024
+ip ssh version 2
 ```
 - Настройте первые пять линий VTY на каждом устройстве, чтобы поддерживать только SSH-соединения и с локальной аутентификацией.
 
@@ -267,7 +268,51 @@ PC-B:
 
 - Политика1. Сеть Sales не может использовать SSH в сети Management (но в  другие сети SSH разрешен).
 ```
+conf t
+access-list 100 deny tcp 10.40.0.0 0.0.0.255 10.20.0.0 0.0.0.255 eq 22
+interface g0/0/1.40
+ip access-group 100 in
+```
+- Политика 2. Сеть Sales не имеет доступа к IP-адресам в сети Management с помощью любого веб-протокола (HTTP/HTTPS). Сеть Sales также не имеет доступа к интерфейсам R1 с помощью любого веб-протокола. Разрешён весь другой веб-трафик
+```
+conf t
+access-list 100 deny tcp 10.40.0.0 0.0.0.255 10.20.0.0 0.0.0.255 eq 80
+access-list 100 deny tcp 10.40.0.0 0.0.0.255 10.20.0.0 0.0.0.255 eq 443
+access-list 100 deny tcp 10.40.0.0 0.0.0.255 10.30.0.0 0.0.0.255 eq 80
+access-list 100 deny tcp 10.40.0.0 0.0.0.255 10.30.0.0 0.0.0.255 eq 443
+access-list 100 deny tcp 10.40.0.0 0.0.0.255 10.40.0.0 0.0.0.255 eq 80
+access-list 100 deny tcp 10.40.0.0 0.0.0.255 10.40.0.0 0.0.0.255 eq 44
+interface g0/0/1.40
+ip access-group 100 in
 ```
 
+- Политика3. Сеть Sales не может отправлять эхо-запросы ICMP в сети Operations или Management. Разрешены эхо-запросы ICMP к другим адресатам. 
+```
+conf t
+access-list 100 deny icmp 10.40.0.0 0.0.0.255 10.20.0.0 0.0.0.255 echo
+access-list 100 deny icmp 10.40.0.0 0.0.0.255 10.30.0.0 0.0.0.255 echo
+access-list 100 permit ip any any
+interface g0/0/1.40
+ip access-group 100 in
+```
+- Политика 4: Cеть Operations  не может отправлять ICMP эхозапросы в сеть Sales. Разрешены эхо-запросы ICMP к другим адресатам. 
+```
+access-list 110 deny icmp 10.30.0.0 0.0.0.255 10.40.0.0 0.0.0.255 echo
+access-list 110 permit ip any any
+interface g0/0/1.30
+ip access-group 110 in
+```
+Выполните следующие тесты. Ожидаемые результаты показаны в таблице:
+![test](scrn/test2.png)
 
+PC-A ping :
 
+![PC-a](scrn/PC-A-test2.png)
+
+PC-B ping :
+
+![PC-b](scrn/PC-B-test2.png)
+
+PC-B ssh :
+
+![Pc-b](scrn/PC-B-test2-SSH.png)
