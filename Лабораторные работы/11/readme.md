@@ -197,7 +197,7 @@ copy run start
 
  interface g0/0/1.1000
  description NATIVE VLAN
-encapsulation  dot1q 1000
+encapsulation  dot1q 1000 native
 exit
 
 interface Loopback 1 
