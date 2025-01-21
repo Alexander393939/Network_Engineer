@@ -144,3 +144,4 @@ e.	Определите внешний (outside) интерфейс.
 interface g0/0/0
 ip nat outside
 ```
+
