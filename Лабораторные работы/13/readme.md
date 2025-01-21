@@ -42,6 +42,10 @@ service password-encryption
 
 banner motd "Alarm!"
 
+interface loopback 1
+ip address 172.16.1.1 255.255.255.0
+exit
+
 interface g0/0/1
 ip address 10.22.0.1 255.255.255.0
 no shutdown
