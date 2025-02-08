@@ -198,3 +198,4 @@ R2:
 show ip route ospf
 ```
 ![ShowospfR2](scrn/ShowOSPFR2.png)
+
